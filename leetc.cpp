@@ -1,121 +1,115 @@
 #include <iostream>
-#include <string>
 
 using namespace std;
 
-class Solution
+struct ListNode 
 {
-    public:
-        bool isValid(string s) 
+  int val;
+  ListNode *next;
+  ListNode() : val(0), next(nullptr) {}
+  ListNode(int x) : val(x), next(nullptr) {}
+  ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) 
+    {
+        
+
+       
+        if(list1 == nullptr)
         {
-            if(s.size()%2 != 0 )
-            {
-                cout<<"count"<<endl;
-                return false;
-            }
-            int a=0;
-            for(int i=0 ; i < s.size(); i++)
-            {
-                if(s[i] == '[' || s[i] == '{' || s[i] == '(')
-                {
-                    a+=1;
-                }
-                else
-                {
-                    a-=1;
-                }
-            }
-            if(a>0 || a<0)
-            {
-                cout<<"pairity"<<endl;
-                return false;
-            }
-            if(s.size()==1 || s[s.size()-1]== '[' || s[s.size()-1]== '(' || s[s.size()-1]== '{' || s[0]==')' || s[0]==']' || s[0]=='}')
-            {
-                return false;
-            }
-            for(int i =0 ; i < s.size(); i++)
-            {
-                switch (s[i])
-                {
-                case '(':
-                    if(s[i+1] == ']' || s[i+1]=='}')
-                    {
-                        cout<<1<<endl;
-                        return false;
-                    }
-                    else if (s[i+1]==')')
-                    {
-                        break;
-                    }
-                    
-                    else if (s[s.size()-i-1] == ']' || s[s.size()-i-1] == '}')
-                    {
-                        cout<<2<<endl;
-                        return false;
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                case '{':
-                    if(s[i+1] == ']' || s[i+1]==')')
-                    {
-                        cout<<3<<endl;
-                        return false;
-                    }
-                    else if (s[i+1]=='}')
-                    {
-                        break;
-                    }
-                    else if (s[s.size()-i-1] == ']' || s[s.size()-i-1] == ')')
-                    {
-                        cout<<4<<endl;
-                        return false;
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                case '[':
-                    if(s[i+1] == ')' || s[i+1]=='}')
-                    {
-                        cout<<5<<endl;
-                        return false;
-                    }
-                    else if (s[i+1]==']')
-                    {
-                        break;
-                    }
-                    else if (s[s.size()-i-1] == '}' || s[s.size()-i-1] == ')')
-                    {
-                        cout<<6<<endl;
-                        return false;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                
-                default:
-                    break;
-                }
-            }
-            return true;
+            return list2;
         }
+
+        else if(list2 == nullptr)
+        {
+            return list1;
+        }
+
+        ListNode* list3= new ListNode();
+        ListNode* tail=list3;
+
+        while(list1 !=nullptr && list2 !=nullptr)
+
+        {
+            if(list1->val <= list2->val)
+            {
+                tail->next = list1;
+                list1 = list1->next;
+            }
+
+            else
+            {
+                tail->next = list2;
+                list2 = list2->next;
+            }
+
+            tail=tail->next;
+        }
+
+        if(list1 == nullptr)
+        {
+            tail->next = list1;
+        }
+        else
+        {
+            tail->next = list2;
+        }
+        
+
+        return list3->next;
+    }
 
 };
 
-int main()
+int main() 
 {
-  Solution solution; 
-  string s="(([]){})";
-  bool value = solution.isValid(s); 
-  cout<<"the value of string is "<< value <<endl;
-  return 0;
+    ListNode* list1_head = new ListNode(5);
+    list1_head->next = new ListNode(15);
+    list1_head->next->next = new ListNode(25);
 
-  
+    
+    ListNode* list2_head = new ListNode(3);
+    list2_head->next = new ListNode(13);
+    list2_head->next->next = new ListNode(23);
+
+    Solution list3;
+
+    ListNode * ans=list3.mergeTwoLists(list1_head,list2_head);
+
+    int count = 0;
+    ListNode* temp = ans;
+    while (temp != nullptr) 
+    {
+        count++;
+        temp = temp->next;
+    }
+
+    // Create an array to store the merged elements
+    int merged_array[count];
+
+     // Iterate through the merged list and populate the array
+    int i = 0;
+    temp = ans;
+    while (temp != nullptr) 
+    {
+        merged_array[i++] = temp->val;
+        temp = temp->next;
+    }
+
+  // Print the merged elements in the array
+    for (int i = 0; i < count; i++) 
+    {
+        cout << merged_array[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+
+
+
 }
 

@@ -6,104 +6,114 @@ using namespace std;
 class Solution
 {
     public:
-        int romanToInt(string s) 
+        bool isValid(string s) 
         {
-            int value=0;
-
-            for(int i = 0; i < s.size();i++)
+            if(s.size()%2 != 0 )
+            {
+                cout<<"count"<<endl;
+                return false;
+            }
+            int a=0;
+            for(int i=0 ; i < s.size(); i++)
+            {
+                if(s[i] == '[' || s[i] == '{' || s[i] == '(')
+                {
+                    a+=1;
+                }
+                else
+                {
+                    a-=1;
+                }
+            }
+            if(a>0 || a<0)
+            {
+                cout<<"pairity"<<endl;
+                return false;
+            }
+            if(s.size()==1 || s[s.size()-1]== '[' || s[s.size()-1]== '(' || s[s.size()-1]== '{' || s[0]==')' || s[0]==']' || s[0]=='}')
+            {
+                return false;
+            }
+            for(int i =0 ; i < s.size(); i++)
             {
                 switch (s[i])
                 {
-                case 'M':
-                    value += 1000;
-                    break;
-
-                case 'D':
-                    value+=500;
-                    break;
-
-                case 'C':
-                    if(s[i+1]=='M')
+                case '(':
+                    if(s[i+1] == ']' || s[i+1]=='}')
                     {
-                        value+=900;
-                        i++;
-                        continue;
+                        cout<<1<<endl;
+                        return false;
                     }
-                    else if (s[i+1]=='D')
+                    else if (s[i+1]==')')
                     {
-                        value+=400;
-                        i++;
-                        continue;
+                        break;
+                    }
+                    
+                    else if (s[s.size()-i-1] == ']' || s[s.size()-i-1] == '}')
+                    {
+                        cout<<2<<endl;
+                        return false;
                     }
                     else
                     {
-                        value += 100;
+                        break;
                     }
-                    break;
 
-                case 'L':
-                    value+=50;
-                    break;
+                case '{':
+                    if(s[i+1] == ']' || s[i+1]==')')
+                    {
+                        cout<<3<<endl;
+                        return false;
+                    }
+                    else if (s[i+1]=='}')
+                    {
+                        break;
+                    }
+                    else if (s[s.size()-i-1] == ']' || s[s.size()-i-1] == ')')
+                    {
+                        cout<<4<<endl;
+                        return false;
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                case '[':
+                    if(s[i+1] == ')' || s[i+1]=='}')
+                    {
+                        cout<<5<<endl;
+                        return false;
+                    }
+                    else if (s[i+1]==']')
+                    {
+                        break;
+                    }
+                    else if (s[s.size()-i-1] == '}' || s[s.size()-i-1] == ')')
+                    {
+                        cout<<6<<endl;
+                        return false;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 
-                case 'X':
-                    if(s[i+1]=='C')
-                    {
-                        value+=90;
-                        i++;
-                        continue;
-                    }
-                    else if (s[i+1]=='L')
-                    {
-                        value+=40;
-                        i++;
-                        continue;
-                    }
-                    else
-                    {
-                        value += 10;
-                    }
-                    break;
-
-                case 'V':
-                    value+=5;
-                    break;
-
-                case 'I':
-                    if(s[i+1]=='X')
-                    {
-                        value+=9;
-                        i++;
-                        continue;
-                    }
-                    else if (s[i+1]=='V')
-                    {
-                        value+=4;
-                        i++;
-                        continue;
-                    }
-                    else
-                    {
-                        value += 1;
-                    }
-                    break;
-
-
                 default:
                     break;
                 }
-                
-                
             }
-            return value;
+            return true;
         }
+
 };
 
 int main()
 {
   Solution solution; 
-  string s="LVIII";
-  int value = solution.romanToInt(s); 
-  cout<<"the value of string is"<<value<<endl;
+  string s="(([]){})";
+  bool value = solution.isValid(s); 
+  cout<<"the value of string is "<< value <<endl;
   return 0;
 
   

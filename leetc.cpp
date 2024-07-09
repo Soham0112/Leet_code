@@ -2,61 +2,45 @@
 #include<vector>
 
 using namespace std;
-class Solution 
-{
-    public:
+class Solution {
+public:
+
+    int bin_search(vector<int>& nums,int start,int end, int target)
+    {
         
-        int removeElement(vector<int>& nums, int val) 
+        while(start<=end)
         {
-            if(nums.empty())
+            int mid = start + (end-start)/2;
+            if(nums[mid]<target)
             {
-                return 0;
-            }
-            
-            for(int i =0; i<nums.size();i++)
-            {
-                auto it =find(nums.begin(), nums.end(), 3);
+                start = mid +1;
             }
 
-            nums.clear();
-            for(int i=0; i<=temp.size();i++)
+            else if (nums[mid]>=target)
             {
-                nums.push_back(temp[i]);
-                cout<<temp[i]<<" ";
+                end = mid -1;
             }
-            cout<<endl;
-            for(int i=0; i<=nums.size();i++)
-            {
-                cout<<nums[i]<<" ";
-            }
-            int k = temp.size();
-
-            nums.shrink_to_fit();
-
-
-            return k;
         }
+        return start;
+    }
+
+    int searchInsert(vector<int>& nums, int target) 
+    {
+        return bin_search(nums,0,nums.size()-1,target);
+    }
 };
-
-
 
 
 int main() 
 {
-    vector<int> nums={0,1,2,2,3,0,4,2};
-
-    for(int i=0; i <= nums.size();i++)
-    {
-        cout<<nums[i]<<endl;
-    }
+    vector<int> vec_ex={1,3,5,6,7};
+    int target = 6;
 
     Solution solu_vec;
-    int k = solu_vec.removeElement(nums,2);
+    int k=solu_vec.searchInsert(vec_ex,target);
 
     cout<<k<<endl;
-
-
+    
     return 0;
 }
-
 

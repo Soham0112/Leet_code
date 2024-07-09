@@ -1,46 +1,51 @@
 #include <iostream>
-#include<vector>
+#include <vector>
+#include <cmath>
 
 using namespace std;
+
 class Solution {
 public:
-
-    int bin_search(vector<int>& nums,int start,int end, int target)
+    vector<int> plusOne(vector<int>& digits) 
     {
-        
-        while(start<=end)
+        long long int num=0;
+        string str;
+        switch (digits[digits.size()-1])
         {
-            int mid = start + (end-start)/2;
-            if(nums[mid]<target)
+        case 9:
+            for(int i=digits.size()-1; i>=0 ;i--)
             {
-                start = mid +1;
+                num += digits[i] * (pow(10,(digits.size()-1)-i));
             }
-
-            else if (nums[mid]>=target)
+            num += 1;
+            str = to_string(num);
+            digits.clear();
+            for (char c : str) 
             {
-                end = mid -1;
+                digits.push_back(c - '0');
             }
+            return digits;
+        
+        default:
+            cout<<"default is working";
+            digits[digits.size()-1]+=1;
         }
-        return start;
-    }
 
-    int searchInsert(vector<int>& nums, int target) 
-    {
-        return bin_search(nums,0,nums.size()-1,target);
+        return digits;
+        
     }
 };
 
-
 int main() 
 {
-    vector<int> vec_ex={1,3,5,6,7};
-    int target = 6;
+    vector<int> digits ={9};
 
-    Solution solu_vec;
-    int k=solu_vec.searchInsert(vec_ex,target);
+    Solution vec_dig;
+    digits=vec_dig.plusOne(digits);
 
-    cout<<k<<endl;
-    
+    for(int i=0; i < digits.size();i++)
+    {
+        cout<<digits[i]<<' ';
+    }
     return 0;
 }
-

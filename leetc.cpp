@@ -1,41 +1,40 @@
 #include <iostream>
 #include <vector>
-#include <string>
 
 using namespace std;
-
-
-int square_root(int x,int low,int high)
+int fibo(int n , vector<int> & memo_arr)
 {
-    if (x == 1)
+    if(n <= 1)
     {
         return 1;
     }
-    int mid = low+(high - low) / 2;
-    if (mid * mid == x)
+
+    if(memo_arr[n] != -1)
     {
-        return mid; 
+        return memo_arr[n];
     }
-    else if ((mid + 1) * (mid + 1) > x && (mid - 1) * (mid - 1) < x)
+
+    memo_arr[n]= fibo(n-1,memo_arr) + fibo(n-2,memo_arr);
+
+    return memo_arr[n];
+}
+
+int climbStairs(int n) 
+{
+    vector<int> memo_arr(n+1);
+
+    for(int i=0; i<=n;i++)
     {
-        return mid-1; 
+        memo_arr[i]=-1;
     }
-    else if (mid * mid < x)
-    {
-        cout<<x<<" "<<mid<<" "<<high<<endl;
-        return square_root(x, mid, high);
-    }
-    else
-    {
-        return square_root(x, low, mid);
-    }
+    return fibo(n,memo_arr);
 }
 
 
 int main() 
 {
-    int sqr_rt=square_root(25,0,25);
-    cout<<"sqaure root is "<<sqr_rt<<endl;
+
+    cout<<"the number of ways is: "<<climbStairs(22)<<endl;
     return 0;
 
 }

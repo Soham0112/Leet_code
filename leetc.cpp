@@ -2,39 +2,89 @@
 #include <vector>
 
 using namespace std;
-int fibo(int n , vector<int> & memo_arr)
+
+struct ListNode
 {
-    if(n <= 1)
-    {
-        return 1;
-    }
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
 
-    if(memo_arr[n] != -1)
-    {
-        return memo_arr[n];
-    }
 
-    memo_arr[n]= fibo(n-1,memo_arr) + fibo(n-2,memo_arr);
-
-    return memo_arr[n];
-}
-
-int climbStairs(int n) 
+void insertSorted(ListNode **head, int value)
 {
-    vector<int> memo_arr(n+1);
+    ListNode *newNode = new ListNode(value);
+    ListNode *current = *head;
+    ListNode *prev = nullptr;
 
-    for(int i=0; i<=n;i++)
+    while (current != nullptr && current->val < value)
     {
-        memo_arr[i]=-1;
+        prev = current;
+        current = current->next;
     }
-    return fibo(n,memo_arr);
-}
 
+    if (prev == nullptr)
+    {
+        newNode->next = *head;
+        *head = newNode;
+    }
+    else
+    {
+        prev->next = newNode;
+        newNode->next = current;
+    }
+}
+class Solution 
+{
+    public:
+        ListNode* deleteDuplicates(ListNode *head) 
+        {
+
+            ListNode* current= head;
+            ListNode* prev = head;
+
+            if(head == nullptr)
+            {
+                return head;
+            }
+
+            current=head->next;
+            while(current != nullptr )
+            {
+                if(current->val == prev->val)
+                {
+                    current=current->next;
+                    prev->next=current;
+                }
+
+                else
+                {
+                    current=current->next;
+                    prev=prev->next;
+                }
+            }
+
+            return head;
+            
+        }
+};
 
 int main() 
 {
+    Solution linked_list;
 
-    cout<<"the number of ways is: "<<climbStairs(22)<<endl;
+    ListNode * head = nullptr;
+    insertSorted(&head, 1);
+    insertSorted(&head, 2);
+    insertSorted(&head, 3);
+    insertSorted(&head, 2);
+    insertSorted(&head, 3);
+
+    ListNode* list3= nullptr;
+    ListNode* tail=list3;
+    list3 = linked_list.deleteDuplicates(head);
     return 0;
 
 }

@@ -3,88 +3,59 @@
 
 using namespace std;
 
-struct ListNode
+class Solution
 {
-    int val;
-    ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
-};
-
-
-void insertSorted(ListNode **head, int value)
-{
-    ListNode *newNode = new ListNode(value);
-    ListNode *current = *head;
-    ListNode *prev = nullptr;
-
-    while (current != nullptr && current->val < value)
+public:
+    vector<vector<int>> generate(int numRows)
     {
-        prev = current;
-        current = current->next;
-    }
+        vector<vector<int>> ans(numRows);
 
-    if (prev == nullptr)
-    {
-        newNode->next = *head;
-        *head = newNode;
-    }
-    else
-    {
-        prev->next = newNode;
-        newNode->next = current;
-    }
-}
-class Solution 
-{
-    public:
-        ListNode* deleteDuplicates(ListNode *head) 
+        if (numRows == 1)
         {
-
-            ListNode* current= head;
-            ListNode* prev = head;
-
-            if(head == nullptr)
-            {
-                return head;
-            }
-
-            current=head->next;
-            while(current != nullptr )
-            {
-                if(current->val == prev->val)
-                {
-                    current=current->next;
-                    prev->next=current;
-                }
-
-                else
-                {
-                    current=current->next;
-                    prev=prev->next;
-                }
-            }
-
-            return head;
-            
+            ans = {{1}};
+            return ans;
         }
+        else if (numRows == 2)
+        {
+            ans = {{1}, {1, 1}};
+            return ans;
+        }
+        else
+        {
+            ans[0] = {1};
+            ans[1] = {1, 1};
+            for (int i = 2; i < ans.size(); i++)
+            {
+                ans[i].resize(i + 1);
+                ans[i][0]=ans[i][i]=1;
+                for (int j = 1; j < i; j++)
+                {
+                    ans[i][j] = ans[i - 1][j - 1] + ans[i - 1][j];
+                }
+            }
+        }
+        return ans;
+    }
 };
-
-int main() 
+int main()
 {
-    Solution linked_list;
+    Solution pascal;
 
-    ListNode * head = nullptr;
-    insertSorted(&head, 1);
-    insertSorted(&head, 2);
-    insertSorted(&head, 3);
-    insertSorted(&head, 2);
-    insertSorted(&head, 3);
+    vector<vector<int>> pas_tri;
 
-    ListNode* list3= nullptr;
-    ListNode* tail=list3;
-    list3 = linked_list.deleteDuplicates(head);
+    pas_tri = pascal.generate(5);
+
+    for (int i = 0; i < pas_tri.size(); i++)
+    {
+        cout << "{ ";
+
+        for (int j = 0; j < pas_tri[i].size(); j++)
+        {
+            cout << pas_tri[i][j] << " ";
+        }
+
+        cout << "}" << endl;
+    }
+
     return 0;
-
 }

@@ -1,61 +1,26 @@
-#include <iostream>
-#include <vector>
+#include<bits/stdc++.h>
+
 
 using namespace std;
 
-class Solution
+int hammingweight(int n)
 {
-public:
-    vector<vector<int>> generate(int numRows)
+    int hamming_weight=0;
+    while(n>0)
     {
-        vector<vector<int>> ans(numRows);
-
-        if (numRows == 1)
+        if(n%2 != 0)
         {
-            ans = {{1}};
-            return ans;
+            hamming_weight++;
         }
-        else if (numRows == 2)
-        {
-            ans = {{1}, {1, 1}};
-            return ans;
-        }
-        else
-        {
-            ans[0] = {1};
-            ans[1] = {1, 1};
-            for (int i = 2; i < ans.size(); i++)
-            {
-                ans[i].resize(i + 1);
-                ans[i][0]=ans[i][i]=1;
-                for (int j = 1; j < i; j++)
-                {
-                    ans[i][j] = ans[i - 1][j - 1] + ans[i - 1][j];
-                }
-            }
-        }
-        return ans;
+        cout<<hamming_weight<<endl;
+        n=n/2;
     }
-};
+
+    return hamming_weight;
+}
 int main()
 {
-    Solution pascal;
-
-    vector<vector<int>> pas_tri;
-
-    pas_tri = pascal.generate(5);
-
-    for (int i = 0; i < pas_tri.size(); i++)
-    {
-        cout << "{ ";
-
-        for (int j = 0; j < pas_tri[i].size(); j++)
-        {
-            cout << pas_tri[i][j] << " ";
-        }
-
-        cout << "}" << endl;
-    }
-
+    int count=hammingweight(25);
+    cout<<count<<endl;
     return 0;
 }

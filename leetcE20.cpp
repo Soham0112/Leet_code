@@ -3,21 +3,28 @@ using namespace std;
 
 int majorityElement(vector<int>& nums) 
 {
-    unordered_map<int,int> counts;
     int ans=0;
-    float nums_size = nums.size();
+    int count=0;
 
-    for(int i : nums)
+    for (int i : nums)
     {
-        counts[nums[i]]++;
-        if( counts[nums[i]] >= ceil(nums_size/2.0f) )
+        if (count == 0)
         {
-            ans=i;
-            break;
+            ans = i;
+        }
+
+        if(i == ans)
+        {
+            count+=1;
+        }
+        else
+        {
+            count-=1;
         }
     }
 
-    return ans;
+
+   return ans;
 }
 
 

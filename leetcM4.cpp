@@ -27,8 +27,20 @@ void insertAtTail(ListNode* &head, int value)
 
     temp->next=newNode;
 }
+int length_ll(ListNode* head)
+{
+    int length =0;
+    while(head!=nullptr)
+    {
+        head=head->next;
+        length++;
+    }
 
-ListNode* rotateRight_1(ListNode* &head, int k)
+    return length;
+}
+
+
+ListNode* rotateRight_1(ListNode* &head)
 {
     ListNode * temp = head;
     ListNode * temp_head = head;
@@ -56,18 +68,11 @@ ListNode* rotateRight(ListNode* head, int k)
         return head;
     }
 
-    for(int i =1 ; i<=k ; i++)
-    {
-        rotateRight_1(head,k);
-    }
 
-    ListNode *current = head;
-    while (current != nullptr)
+    for(int i =1 ; i<=k%length_ll(head) ; i++)
     {
-        cout << current->val << " -> ";
-        current = current->next;
+        rotateRight_1(head);
     }
-    cout << "NULL" << endl;
 
     return head;
     

@@ -38,12 +38,6 @@ ListNode* modifiedList(vector<int>& nums,ListNode* head)
         nums_map[it]=2;
     }
 
-    // unordered_map<int,int> :: iterator it = nums_map.begin();
-    // while(it != nums_map.end())
-    // {
-    //     cout<<it->first<<" "<<it->second<<endl;
-    //     it++;
-    // }
 
     ListNode* dummy = new ListNode(-1,head);
     ListNode* temp = head;
@@ -64,6 +58,8 @@ ListNode* modifiedList(vector<int>& nums,ListNode* head)
         }
     }
 
+    prev->next=nullptr;
+
     return dummy->next;
 
 }
@@ -73,12 +69,12 @@ int main()
     vector<int> nums{1,2,3};
 
     ListNode *head2 = new ListNode(3);
-    insertAtTail(head2,2);
     insertAtTail(head2,4);
     insertAtTail(head2,1);
     insertAtTail(head2,4);
     insertAtTail(head2,1);
     insertAtTail(head2,5);
+    insertAtTail(head2,2);
 
     ListNode *head = head2;
     while (head != nullptr)

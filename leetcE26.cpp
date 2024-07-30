@@ -3,15 +3,20 @@ using namespace std;
 
 bool isAnagram(string s, string t) 
 {
-    sort(s.begin(),s.end());
-    sort(t.begin(),t.end());
-
-    unordered_map<string,int> anagram;
-
-    anagram[s]=1;
-    if(anagram.find(t) != anagram.end())
+    if(s.size() == t.size())
     {
-        return true;
+        sort(s.begin(),s.end());
+        sort(t.begin(),t.end());
+
+        unordered_map<string,int> anagram;
+
+        anagram[s]=1;
+        if(anagram.find(t) != anagram.end())
+        {
+            return true;
+        }
+
+        return false;
     }
 
     return false;

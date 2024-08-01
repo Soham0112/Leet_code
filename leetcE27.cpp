@@ -7,10 +7,12 @@ int countCompleteDayPairs(vector<int>& hours)
 
     for(int i=0 ; i < hours.size(); i++)
     {
-        if(hours[i]%24 == 0 || hours[i]%12 == 0)
-        {
-            hours_map[i] = hours[i];
-        }
+        hours_map[i] = hours[i];
+    }
+
+    if(hours_map.empty())
+    {
+        return 0;
     }
 
     for (auto it = hours_map.begin(); it != hours_map.end(); ++it) 
@@ -20,45 +22,27 @@ int countCompleteDayPairs(vector<int>& hours)
 
     int count=0;
 
-    map<int,int> :: iterator it = hours_map.begin();
-    map<int,int> :: iterator it2 = hours_map.begin();
-    it2++;
-
-    while(it2 != hours_map.end() && it !=  hours_map.end())
+    for(int i= 0 ; i < hours.size()-1 ; i++)
     {
-        if((it->second + it2->second)%24 == 0)
+        for(int j=i+1 ; j < hours.size(); j++)
         {
-            cout<<"1st"<<endl;
-            count++;
-            it2++;
-        }
-        else
-        {
-            it++;
-            if(it->first == it2->first)
+            if((hours_map[i]+hours_map[j])%24 == 0)
             {
-                it2++;
+                cout<<i<<" "<<j<<endl;
+                cout<<hours_map[i]<<" "<<hours_map[j]<<endl;
+                cout<<endl;
+                count++;
             }
-        }
-
-        if(it2 == hours_map.end() && it != hours_map.end())
-        {
-            it++;
-            it2=it;
-            it2++;
         }
     }
 
     return count;
 
-          
-
-
 }
 
 int main()
 {
-    vector<int> hours{12,12,30,24,24};
+    vector<int> hours{72,48,24,3,21};
 
     int count = countCompleteDayPairs(hours);
     cout<<count<<endl;

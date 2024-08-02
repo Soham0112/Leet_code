@@ -5,13 +5,13 @@ int longestPalindrome(string s)
 {
     int length=0,count1=0;
 
-    map<char,int> s_map;
+    unordered_map<char,int> s_map;
     for(char c :s)
     {
         s_map[c]++;
     }
 
-    map<char,int> :: iterator it = s_map.begin();
+    unordered_map<char,int> :: iterator it = s_map.begin();
     while(it != s_map.end())
     {
         if(it->second > 1 && (it->second)%2 != 0)

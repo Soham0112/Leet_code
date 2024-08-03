@@ -1,50 +1,71 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+int findKeysWithValue(const map<int, int>& myMap, int value,int k) 
+{
+    vector<int> keys;
+    for (const auto& pair : myMap) {
+        if (pair.second == value) {
+            keys.push_back(pair.first);
+        }
+    }
+
+    for(int i: keys)
+    {
+        cout<<i<<" ";
+    }
+    cout<<endl;
+
+    vector<int> :: iterator it = keys.begin();
+    vector<int> :: iterator it2 = keys.begin()+1;
+
+    while(it != keys.end()-1)
+    {
+        if(*it2 - *it <= k)
+        {
+            return 1;
+        }
+        else
+        {
+            it2++;
+        }
+
+        if(it2 == keys.end())
+        {
+            it++;
+            it2=it;
+            it2++;
+        }
+    }
+    return 0;
+}
+
+
 bool containsNearbyDuplicate(vector<int> &nums, int k)
 {
     map<int, int> nums_map;
-    vector<pair<int, int>> pair_vec;
+    int ans=0;
 
     for (int i = 0; i < nums.size(); i++)
     {
         nums_map[i] = nums[i];
     }
 
-    map<int, int>::iterator it = nums_map.begin();
-    map<int, int>::iterator it2 = nums_map.begin();
-    it2++;
+    sort(nums.begin(),nums.end());
 
-    map<int, int>::iterator itend = nums_map.end();
-    --itend;
-
-    while (it != nums_map.end())
+    vector<int> :: iterator it = nums.begin();
+    int temp=0;
+    while (it != nums.end())
     {
-
-        if (it->second == it2->second)
-        {
-            cout << it->first << " " << it2->first << endl;
-            pair_vec.push_back({it->first, it2->first});
-        }
-
-        if (it2 == nums_map.end())
+        if (*it == *(it+1))
         {
             it++;
-            if (it == itend)
-            {
-                it++;
-            }
-            it2 = it;
         }
-
-        it2++;
-    }
-
-    for (auto pairs : pair_vec)
-    {
-        if (abs(pairs.first - pairs.second) <= k)
+        else if(*it != *(it+1))
         {
-            return true;
+            ans=findKeysWithValue(nums_map,*it,k);
+            if(ans == 1){return true;}
+            it++;
         }
     }
 
@@ -53,5 +74,7 @@ bool containsNearbyDuplicate(vector<int> &nums, int k)
 
 int main()
 {
+    vector<int> nums{1,2,3,1,2,3};
+    cout<<"the answer is"<<containsNearbyDuplicate(nums,2)<<endl;
     return 0;
 }
